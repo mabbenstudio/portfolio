@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mabben Studio — 3D CAD & Reverse Engineering</title>
+  <meta name="description" content="Freelance 3D CAD designer specializing in reverse engineering, rapid prototyping, and custom parts for 3D printing. Available for projects across Europe." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Mabben Studio — 3D CAD & Reverse Engineering" />
+  <meta property="og:description" content="Freelance 3D CAD designer. Reverse engineering, rapid prototyping, custom parts. Available for projects in Europe." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./assets/og-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Mabben Studio — 3D CAD & Reverse Engineering" />
+  <meta name="twitter:description" content="Freelance 3D CAD designer. Reverse engineering, rapid prototyping, custom parts." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* =============================================
+       ART DIRECTION: Engineering precision portfolio
+       Palette: cold metallic — dark navy bg, steel
+       gray surfaces, cyan/teal accent
+       Typography: Space Grotesk (display+body) +
+       JetBrains Mono (labels/code)
+       Density: spacious
+    ============================================= */
+
+    :root, [data-theme="light"] {
+      --color-bg:              #f0f2f5;
+      --color-surface:         #f7f8fa;
+      --color-surface-2:       #ffffff;
+      --color-surface-offset:  #e8eaee;
+      --color-surface-dynamic: #dde0e6;
+      --color-divider:         #d2d6dc;
+      --color-border:          rgba(30,40,60,0.12);
+      --color-text:            #0d1117;
+      --color-text-muted:      #4a5568;
+      --color-text-faint:      #8896a7;
+      --color-text-inverse:    #f0f2f5;
+      --color-primary:         #0ea5b0;
+      --color-primary-hover:   #0b8a94;
+      --color-primary-active:  #096e76;
+      --color-primary-highlight: #cdf0f3;
+      --color-accent2:         #1e3a5f;
+      --shadow-sm: 0 1px 3px rgba(13,17,23,0.07);
+      --shadow-md: 0 4px 16px rgba(13,17,23,0.10);
+      --shadow-lg: 0 12px 40px rgba(13,17,23,0.14);
+    }
+
+    [data-theme="dark"] {
+      --color-bg:              #090d12;
+      --color-surface:         #0d1117;
+      --color-surface-2:       #111620;
+      --color-surface-offset:  #161c28;
+      --color-surface-dynamic: #1c2333;
+      --color-divider:         #1e2638;
+      --color-border:          rgba(100,160,200,0.10);
+      --color-text:            #cdd6e0;
+      --color-text-muted:      #6b7d94;
+      --color-text-faint:      #3d4f63;
+      --color-text-inverse:    #090d12;
+      --color-primary:         #22d3ee;
+      --color-primary-hover:   #06b6d4;
+      --color-primary-active:  #0891b2;
+      --color-primary-highlight: #0c2830;
+      --color-accent2:         #3b82f6;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.30);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.40);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.55);
+    }
+
+    /* Base tokens */
+    :root {
+      --text-xs:   clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm:   clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg:   clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl:   clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl:  clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+      --text-3xl:  clamp(2.5rem, 1rem + 4vw, 5rem);
+      --space-1: .25rem; --space-2: .5rem; --space-3: .75rem;
+      --space-4: 1rem;   --space-5: 1.25rem; --space-6: 1.5rem;
+      --space-8: 2rem;   --space-10: 2.5rem; --space-12: 3rem;
+      --space-16: 4rem;  --space-20: 5rem;   --space-24: 6rem;
+      --radius-sm: 0.25rem; --radius-md: 0.5rem;
+      --radius-lg: 0.75rem; --radius-xl: 1rem;
+      --font-display: 'Space Grotesk', 'Helvetica Neue', sans-serif;
+      --font-body:    'Space Grotesk', 'Helvetica Neue', sans-serif;
+      --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+      --transition-interactive: 180ms cubic-bezier(0.16,1,0.3,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      scroll-behavior: smooth;
+      scroll-padding-top: 5rem;
+    }
+    body {
+      min-height: 100dvh;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: var(--color-text);
+      background: var(--color-bg);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    img, picture, video, canvas, svg { display: block; max-width: 100%; }
+    h1,h2,h3,h4,h5,h6 { line-height: 1.15; text-wrap: balance; font-family: var(--font-display); }
+    p, li { text-wrap: pretty; }
+    button { cursor: pointer; background: none; border: none; }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-sm); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* =============================================
+       GRID NOISE / SUBTLE BACKGROUND TEXTURE
+    ============================================= */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(100,160,200,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100,160,200,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    [data-theme="light"] body::before {
+      background-image:
+        linear-gradient(rgba(14,165,176,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(14,165,176,0.04) 1px, transparent 1px);
+    }
+
+    /* =============================================
+       NAV
+    ============================================= */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: var(--space-4) var(--space-8);
+      background: color-mix(in oklch, var(--color-bg) 85%, transparent);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--color-border);
+      transition: background var(--transition-interactive);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: var(--space-3);
+      font-size: var(--text-sm); font-weight: 600; letter-spacing: 0.05em;
+      text-transform: uppercase; color: var(--color-text);
+    }
+    .nav-logo svg { flex-shrink: 0; }
+    .nav-links {
+      display: flex; align-items: center; gap: var(--space-8);
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: var(--text-sm); font-weight: 500;
+      color: var(--color-text-muted);
+      transition: color var(--transition-interactive);
+      letter-spacing: 0.02em;
+    }
+    .nav-links a:hover { color: var(--color-primary); }
+    .nav-right { display: flex; align-items: center; gap: var(--space-4); }
+    .theme-toggle {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--radius-md);
+      color: var(--color-text-muted);
+      transition: color var(--transition-interactive), background var(--transition-interactive);
+    }
+    .theme-toggle:hover { color: var(--color-text); background: var(--color-surface-offset); }
+    .nav-cta {
+      padding: var(--space-2) var(--space-5);
+      background: var(--color-primary);
+      color: var(--color-text-inverse);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm); font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: background var(--transition-interactive), transform var(--transition-interactive);
+    }
+    .nav-cta:hover { background: var(--color-primary-hover); transform: translateY(-1px); }
+    .nav-hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      width: 36px; height: 36px; align-items: center; justify-content: center;
+      border-radius: var(--radius-md); color: var(--color-text-muted);
+    }
+    .nav-hamburger span {
+      display: block; width: 18px; height: 1.5px;
+      background: currentColor; border-radius: 2px;
+      transition: transform var(--transition-interactive), opacity var(--transition-interactive);
+    }
+    @media (max-width: 768px) {
+      nav { padding: var(--space-3) var(--space-4); }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column; gap: var(--space-4);
+        position: fixed; top: 57px; left: 0; right: 0;
+        background: var(--color-surface);
+        border-bottom: 1px solid var(--color-border);
+        padding: var(--space-6) var(--space-6) var(--space-8);
+        z-index: 99;
+      }
+      .nav-links.open a { font-size: var(--text-base); }
+      .nav-hamburger { display: flex; }
+      .nav-cta { display: none; }
+    }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100dvh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: var(--space-16);
+      max-width: 1200px; margin: 0 auto;
+      padding: calc(5rem + var(--space-16)) var(--space-8) var(--space-16);
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      color: var(--color-primary); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: var(--space-5);
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 24px; height: 1px;
+      background: var(--color-primary);
+    }
+    .hero h1 {
+      font-size: var(--text-3xl); font-weight: 700;
+      line-height: 1.08; margin-bottom: var(--space-6);
+      letter-spacing: -0.02em;
+    }
+    .hero h1 .accent { color: var(--color-primary); }
+    .hero-subtitle {
+      font-size: var(--text-base); color: var(--color-text-muted);
+      max-width: 44ch; margin-bottom: var(--space-8); line-height: 1.7;
+    }
+    .hero-buttons {
+      display: flex; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-10);
+    }
+    .btn-primary {
+      padding: var(--space-3) var(--space-8);
+      background: var(--color-primary); color: var(--color-text-inverse);
+      border-radius: var(--radius-md); font-weight: 600; font-size: var(--text-sm);
+      letter-spacing: 0.02em;
+      transition: background var(--transition-interactive), transform var(--transition-interactive), box-shadow var(--transition-interactive);
+      border: 1px solid transparent;
+    }
+    .btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-secondary {
+      padding: var(--space-3) var(--space-8);
+      background: transparent; color: var(--color-text);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md); font-weight: 600; font-size: var(--text-sm);
+      letter-spacing: 0.02em;
+      transition: background var(--transition-interactive), border-color var(--transition-interactive), transform var(--transition-interactive);
+    }
+    .btn-secondary:hover { background: var(--color-surface-offset); border-color: var(--color-primary); transform: translateY(-2px); }
+    .hero-stats {
+      display: flex; gap: var(--space-8);
+    }
+    .stat { }
+    .stat-number {
+      font-size: var(--text-xl); font-weight: 700;
+      color: var(--color-text); letter-spacing: -0.03em;
+      font-feature-settings: 'tnum';
+    }
+    .stat-label {
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      color: var(--color-text-faint); text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .hero-visual {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-img-wrap {
+      position: relative; width: 100%;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-lg);
+      aspect-ratio: 4/3;
+      background: var(--color-surface-offset);
+    }
+    .hero-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .hero-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: var(--space-3);
+      color: var(--color-text-faint);
+      font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.06em;
+    }
+    .hero-badge {
+      position: absolute; bottom: -var(--space-4); right: -var(--space-4);
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-3) var(--space-4);
+      box-shadow: var(--shadow-md);
+      display: flex; align-items: center; gap: var(--space-3);
+      bottom: var(--space-4); right: var(--space-4);
+    }
+    .hero-badge-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e88;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.2); }
+    }
+    .hero-badge-text {
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      color: var(--color-text-muted); letter-spacing: 0.04em;
+    }
+    .hero-badge-text strong { color: var(--color-text); display: block; }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: var(--space-12); padding-top: calc(5rem + var(--space-10)); }
+      .hero-visual { order: -1; max-width: 480px; margin: 0 auto; width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .hero-stats { gap: var(--space-6); }
+    }
+
+    /* =============================================
+       SECTION BASE
+    ============================================= */
+    section { position: relative; z-index: 1; }
+    .section-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: clamp(var(--space-16), 8vw, var(--space-24)) var(--space-8);
+    }
+    .section-label {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      color: var(--color-primary); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: var(--space-4);
+    }
+    .section-label::before { content: '//'; margin-right: var(--space-1); }
+    .section-heading {
+      font-size: var(--text-2xl); font-weight: 700;
+      letter-spacing: -0.02em; margin-bottom: var(--space-4);
+    }
+    .section-sub {
+      font-size: var(--text-base); color: var(--color-text-muted);
+      max-width: 52ch; margin-bottom: var(--space-12); line-height: 1.7;
+    }
+    .divider {
+      border: none; height: 1px;
+      background: var(--color-divider);
+      margin: 0;
+    }
+
+    /* =============================================
+       SERVICES
+    ============================================= */
+    #services { background: var(--color-surface); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+    }
+    .service-card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      transition: transform var(--transition-interactive), box-shadow var(--transition-interactive), border-color var(--transition-interactive);
+      position: relative; overflow: hidden;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+      opacity: 0;
+      transition: opacity var(--transition-interactive);
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: color-mix(in oklch, var(--color-primary) 30%, var(--color-border)); }
+    .service-card:hover::after { opacity: 1; }
+    .service-icon {
+      width: 44px; height: 44px; margin-bottom: var(--space-5);
+      color: var(--color-primary);
+    }
+    .service-number {
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      color: var(--color-text-faint); letter-spacing: 0.1em;
+      margin-bottom: var(--space-3);
+    }
+    .service-title {
+      font-size: var(--text-lg); font-weight: 700;
+      margin-bottom: var(--space-3); letter-spacing: -0.01em;
+    }
+    .service-desc {
+      font-size: var(--text-sm); color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+    @media (max-width: 640px) {
+      .services-grid { grid-template-columns: 1fr; }
+    }
+
+    /* =============================================
+       PROJECTS
+    ============================================= */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+    .project-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      transition: transform var(--transition-interactive), box-shadow var(--transition-interactive);
+    }
+    .project-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .project-img {
+      aspect-ratio: 4/3;
+      background: var(--color-surface-offset);
+      overflow: hidden; position: relative;
+    }
+    .project-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 400ms ease;
+    }
+    .project-card:hover .project-img img { transform: scale(1.04); }
+    .project-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: var(--space-2);
+      color: var(--color-text-faint);
+    }
+    .project-img-placeholder span {
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      letter-spacing: 0.06em; text-align: center; padding: 0 var(--space-4);
+    }
+    .project-body { padding: var(--space-6); }
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4);
+    }
+    .tag {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      color: var(--color-primary); background: var(--color-primary-highlight);
+      border-radius: var(--radius-sm); padding: 2px var(--space-2);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .project-title {
+      font-size: var(--text-base); font-weight: 700;
+      margin-bottom: var(--space-2); letter-spacing: -0.01em;
+    }
+    .project-desc {
+      font-size: var(--text-sm); color: var(--color-text-muted);
+      line-height: 1.6; margin-bottom: var(--space-4);
+    }
+    .project-process {
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      color: var(--color-text-faint); letter-spacing: 0.04em;
+      border-top: 1px solid var(--color-divider); padding-top: var(--space-4);
+    }
+    .project-process strong { color: var(--color-primary); }
+    @media (max-width: 900px) {
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 540px) {
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+
+    /* =============================================
+       TOOLS & SKILLS
+    ============================================= */
+    #tools { background: var(--color-surface); }
+    .tools-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: var(--space-16); align-items: start;
+    }
+    .tools-list {
+      display: flex; flex-direction: column; gap: var(--space-3);
+    }
+    .tool-row {
+      display: flex; align-items: center; gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      transition: border-color var(--transition-interactive), transform var(--transition-interactive);
+    }
+    .tool-row:hover { border-color: var(--color-primary); transform: translateX(4px); }
+    .tool-icon { color: var(--color-primary); flex-shrink: 0; }
+    .tool-name {
+      font-weight: 600; font-size: var(--text-sm);
+      flex: 1;
+    }
+    .tool-level {
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      color: var(--color-text-faint); letter-spacing: 0.06em;
+    }
+    .skills-cloud {
+      display: flex; flex-wrap: wrap; gap: var(--space-3);
+    }
+    .skill-chip {
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      padding: var(--space-2) var(--space-4);
+      letter-spacing: 0.06em;
+      transition: border-color var(--transition-interactive), color var(--transition-interactive);
+    }
+    .skill-chip:hover { border-color: var(--color-primary); color: var(--color-primary); }
+    .skill-chip.highlight {
+      border-color: var(--color-primary); color: var(--color-primary);
+      background: var(--color-primary-highlight);
+    }
+    @media (max-width: 768px) {
+      .tools-layout { grid-template-columns: 1fr; gap: var(--space-10); }
+    }
+
+    /* =============================================
+       CONTACT
+    ============================================= */
+    #contact {
+      background: var(--color-bg);
+    }
+    .contact-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: var(--space-16); align-items: center;
+    }
+    .contact-tagline {
+      font-size: var(--text-2xl); font-weight: 700;
+      letter-spacing: -0.02em; margin-bottom: var(--space-6);
+    }
+    .contact-tagline .accent { color: var(--color-primary); }
+    .available-badge {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: color-mix(in oklch, #22c55e 10%, var(--color-bg));
+      border: 1px solid color-mix(in oklch, #22c55e 30%, var(--color-border));
+      border-radius: var(--radius-full);
+      padding: var(--space-2) var(--space-4);
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      color: #22c55e; letter-spacing: 0.06em;
+      margin-bottom: var(--space-6);
+    }
+    .available-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #22c55e;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    .contact-links {
+      display: flex; flex-direction: column; gap: var(--space-3);
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: var(--space-4);
+      padding: var(--space-5) var(--space-6);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      color: var(--color-text);
+      transition: border-color var(--transition-interactive), transform var(--transition-interactive), box-shadow var(--transition-interactive);
+    }
+    .contact-link:hover { border-color: var(--color-primary); transform: translateX(4px); box-shadow: var(--shadow-sm); }
+    .contact-link-icon { color: var(--color-primary); flex-shrink: 0; }
+    .contact-link-label {
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      color: var(--color-text-faint); letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .contact-link-value { font-weight: 600; font-size: var(--text-sm); }
+    .contact-link-arrow { margin-left: auto; color: var(--color-text-faint); }
+    @media (max-width: 768px) {
+      .contact-layout { grid-template-columns: 1fr; gap: var(--space-10); }
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer {
+      border-top: 1px solid var(--color-divider);
+      background: var(--color-surface);
+      position: relative; z-index: 1;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: var(--space-8) var(--space-8);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--space-4);
+    }
+    .footer-copy {
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      color: var(--color-text-faint); letter-spacing: 0.06em;
+    }
+    .footer-tech {
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      color: var(--color-text-faint); letter-spacing: 0.04em;
+    }
+    @media (max-width: 540px) {
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+
+    /* =============================================
+       SCROLL ANIMATIONS (fade-in)
+    ============================================= */
+    .fade-up {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .fade-up.in-view { opacity: 1; transform: translateY(0); }
+    .fade-up:nth-child(2) { transition-delay: 0.08s; }
+    .fade-up:nth-child(3) { transition-delay: 0.16s; }
+    .fade-up:nth-child(4) { transition-delay: 0.24s; }
+    .fade-up:nth-child(5) { transition-delay: 0.32s; }
+    .fade-up:nth-child(6) { transition-delay: 0.40s; }
+
+    /* =============================================
+       HERO ANIMATED LINES (subtle engineering aesthetic)
+    ============================================= */
+    .hero-lines {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+      border-radius: var(--radius-xl);
+    }
+    .hero-lines svg { width: 100%; height: 100%; opacity: 0.15; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <!-- Custom SVG Logo: precision bracket mark -->
+    <svg aria-label="Mabben Studio logo" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="26" height="26" rx="4" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+      <path d="M7 7 L7 14 L14 14" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M21 21 L21 14 L14 14" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="14" cy="14" r="2" fill="var(--color-primary)"/>
+    </svg>
+    Mabben Studio
+  </div>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <button class="theme-toggle" data-theme-toggle aria-label="Switch to light mode">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+    <a href="#contact" class="nav-cta">Hire Me</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Available for freelance · Europe</div>
+    <h1>
+      Precision <span class="accent">CAD</span><br>
+      &amp; Reverse<br>Engineering
+    </h1>
+    <p class="hero-subtitle">
+      I design parts that work — from concept sketch to printable geometry.
+      Specializing in reverse engineering, FDM prototyping, and custom mechanical components.
+    </p>
+    <div class="hero-buttons">
+      <a href="#projects" class="btn-primary">View Work</a>
+      <a href="#contact" class="btn-secondary">Hire Me</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number">3+</div>
+        <div class="stat-label">Years CAD</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Parts Shipped</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">±0.1mm</div>
+        <div class="stat-label">Tolerance</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-img-wrap">
+      <!-- Replace src with your actual printer photo: ./assets/printer.jpg -->
+      <img
+        src="./assets/printer.jpg"
+        alt="Creality K2 Plus 3D printer with CFS module — high-precision FDM printing setup"
+        width="600" height="450"
+        loading="eager"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+      <div class="hero-img-placeholder" style="display:none;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
+        <span>./assets/printer.jpg<br>Place your printer photo here</span>
+      </div>
+      <div class="hero-lines">
+        <svg viewBox="0 0 600 450" preserveAspectRatio="none">
+          <line x1="0" y1="225" x2="600" y2="225" stroke="currentColor" stroke-width="0.5"/>
+          <line x1="300" y1="0" x2="300" y2="450" stroke="currentColor" stroke-width="0.5"/>
+          <circle cx="300" cy="225" r="60" stroke="currentColor" stroke-width="0.5" fill="none"/>
+          <circle cx="300" cy="225" r="100" stroke="currentColor" stroke-width="0.5" fill="none" stroke-dasharray="4 8"/>
+        </svg>
+      </div>
+    </div>
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      <div class="hero-badge-text">
+        <strong>Open to Work</strong>
+        Internship &amp; Freelance
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-label">Services</div>
+    <h2 class="section-heading">What I Do</h2>
+    <p class="section-sub">End-to-end mechanical design — from scanning and measuring existing parts to delivering print-ready models with tight tolerances.</p>
+
+    <div class="services-grid">
+      <div class="service-card fade-up">
+        <div class="service-number">01</div>
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="8" y="8" width="28" height="28" rx="2"/>
+          <path d="M15 22h14M22 15v14"/>
+          <circle cx="22" cy="22" r="4"/>
+        </svg>
+        <h3 class="service-title">3D CAD Modeling</h3>
+        <p class="service-desc">Parametric solid modeling in Fusion 360. From concept sketches to fully constrained assemblies with drawings. Designed for manufacturability from day one.</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-number">02</div>
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 34 L20 14 L34 10"/>
+          <path d="M34 10 L34 22 L22 34 L10 34"/>
+          <circle cx="22" cy="22" r="3"/>
+          <path d="M10 34 L22 22 M34 10 L22 22"/>
+        </svg>
+        <h3 class="service-title">Reverse Engineering</h3>
+        <p class="service-desc">Recreating legacy or broken components from physical parts. Manual measurement, caliper data, and CAD reconstruction — resulting in a fully editable model.</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-number">03</div>
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 8 L36 15 L36 29 L22 36 L8 29 L8 15 Z"/>
+          <path d="M8 15 L22 22 L36 15"/>
+          <path d="M22 22 L22 36"/>
+        </svg>
+        <h3 class="service-title">Rapid Prototyping</h3>
+        <p class="service-desc">Fast design–print–test iterations using FDM technology. Multiple material options, functional prototypes, and design validation — all in-house.</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-number">04</div>
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="22" cy="22" r="12"/>
+          <path d="M22 10 L22 8M22 34 L22 36M10 22 L8 22M34 22 L36 22"/>
+          <circle cx="22" cy="22" r="4" fill="currentColor" opacity="0.2"/>
+          <path d="M16 16 L28 28M28 16 L16 28" opacity="0.5"/>
+        </svg>
+        <h3 class="service-title">Custom Parts for 3D Printing</h3>
+        <p class="service-desc">Print-optimized geometry — correct wall thickness, bridging, support strategies, and infill planning. Designed for FDM from the first sketch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label">Projects</div>
+    <h2 class="section-heading">Selected Work</h2>
+    <p class="section-sub">A sample of engineering problems solved — from desk organizers to airsoft hardware to industrial mounting solutions.</p>
+
+    <div class="projects-grid">
+
+      <div class="project-card fade-up">
+        <div class="project-img">
+          <img src="./assets/project-1.jpg" alt="Gridfinity modular desk storage system" width="400" height="300" loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="project-img-placeholder" style="display:none;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="9" height="9" rx="1"/><rect x="13" y="2" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg>
+            <span>./assets/project-1.jpg</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">Fusion 360</span>
+            <span class="tag">FDM</span>
+            <span class="tag">Gridfinity</span>
+          </div>
+          <h3 class="project-title">Modular Desk Storage System</h3>
+          <p class="project-desc">Gridfinity-compatible storage units designed from scratch. Parametric sizing, stackable bins, and label holders — all print-in-place with no supports.</p>
+          <div class="project-process"><strong>Process:</strong> Sketch → parametric model → test print → tolerance fit → final print</div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-img">
+          <img src="./assets/project-2.jpg" alt="Universal phone holder mount" width="400" height="300" loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="project-img-placeholder" style="display:none;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1"/></svg>
+            <span>./assets/project-2.jpg</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">Fusion 360</span>
+            <span class="tag">Custom Mount</span>
+          </div>
+          <h3 class="project-title">Universal Phone Holder Mount</h3>
+          <p class="project-desc">Multi-device compatible desk mount — spring-loaded clamp mechanism with 360° rotation. Reverse engineered from a commercial unit to improve grip and reduce wobble.</p>
+          <div class="project-process"><strong>Process:</strong> Reference scan → RE model → spring mechanism design → iteration × 3</div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-img">
+          <img src="./assets/project-3.jpg" alt="Airsoft rifle custom internal parts" width="400" height="300" loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="project-img-placeholder" style="display:none;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <span>./assets/project-3.jpg</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">RE</span>
+            <span class="tag">PETG</span>
+            <span class="tag">High Tolerance</span>
+          </div>
+          <h3 class="project-title">Airsoft Rifle Custom Chassis Parts</h3>
+          <p class="project-desc">Reverse engineered and reprinted broken AEG internal components. Caliper measurement of original part, full CAD reconstruction, ±0.1mm fit achieved on first functional print.</p>
+          <div class="project-process"><strong>Process:</strong> Caliper measurement → CAD from scratch → PETG test print → fit test</div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-img">
+          <img src="./assets/project-4.jpg" alt="Furniture board clamp joiner" width="400" height="300" loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="project-img-placeholder" style="display:none;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            <span>./assets/project-4.jpg</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">Fusion 360</span>
+            <span class="tag">PLA+</span>
+            <span class="tag">Assembly</span>
+          </div>
+          <h3 class="project-title">Board Joining Clamp System</h3>
+          <p class="project-desc">Custom furniture clamp connectors designed to join panels without visible hardware. Snap-fit joints calibrated for exact board thickness with thermal expansion margin.</p>
+          <div class="project-process"><strong>Process:</strong> Load analysis → joint geometry → snap-fit math → print in PLA+</div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-img">
+          <img src="./assets/project-5.jpg" alt="Robot vacuum attachment holder for Dreame" width="400" height="300" loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="project-img-placeholder" style="display:none;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            <span>./assets/project-5.jpg</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">RE</span>
+            <span class="tag">Consumer Product</span>
+            <span class="tag">FDM</span>
+          </div>
+          <h3 class="project-title">Robot Vacuum Accessory Holder</h3>
+          <p class="project-desc">Wall-mounted docking accessory for Dreame robot vacuum — reverse engineered from the original dock geometry for perfect clip fit and wall-mount alignment.</p>
+          <div class="project-process"><strong>Process:</strong> Product scan → RE fit curves → wall mount design → clip tolerance tuning</div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-img">
+          <img src="./assets/project-6.jpg" alt="Fire detector ceiling mount gypsum" width="400" height="300" loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="project-img-placeholder" style="display:none;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2"/></svg>
+            <span>./assets/project-6.jpg</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">Fusion 360</span>
+            <span class="tag">ABS</span>
+            <span class="tag">Installation</span>
+          </div>
+          <h3 class="project-title">Fire Detector Gypsum Mount</h3>
+          <p class="project-desc">Concealed ceiling mount adapter for fire detector on gypsum board — designed to distribute load across a wider surface and snap onto standard detector housings.</p>
+          <div class="project-process"><strong>Process:</strong> Sensor housing RE → load area calc → snap ring design → ABS print</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TOOLS & SKILLS -->
+<section id="tools">
+  <div class="section-inner">
+    <div class="section-label">Toolset</div>
+    <h2 class="section-heading">Tools &amp; Skills</h2>
+    <p class="section-sub">The software, hardware, and engineering knowledge I use on every project.</p>
+
+    <div class="tools-layout">
+      <div>
+        <p style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-faint);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:var(--space-4);">// Primary tools</p>
+        <div class="tools-list">
+          <div class="tool-row fade-up">
+            <svg class="tool-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            <span class="tool-name">Autodesk Fusion 360</span>
+            <span class="tool-level">ADVANCED</span>
+          </div>
+          <div class="tool-row fade-up">
+            <svg class="tool-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+            <span class="tool-name">FDM 3D Printing (Creality K2 Plus)</span>
+            <span class="tool-level">EXPERT</span>
+          </div>
+          <div class="tool-row fade-up">
+            <svg class="tool-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9"/><path d="M21 3l-9 9M21 3h-6M21 3v6"/></svg>
+            <span class="tool-name">OrcaSlicer</span>
+            <span class="tool-level">ADVANCED</span>
+          </div>
+          <div class="tool-row fade-up">
+            <svg class="tool-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+            <span class="tool-name">Autodesk Revit</span>
+            <span class="tool-level">PROFICIENT</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-faint);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:var(--space-4);">// Engineering skills</p>
+        <div class="skills-cloud">
+          <span class="skill-chip highlight">Parametric Modeling</span>
+          <span class="skill-chip highlight">Reverse Engineering</span>
+          <span class="skill-chip highlight">FDM Optimization</span>
+          <span class="skill-chip">GD&amp;T Tolerances</span>
+          <span class="skill-chip">Assembly Design</span>
+          <span class="skill-chip">Snap-fit Joints</span>
+          <span class="skill-chip">Print-in-Place</span>
+          <span class="skill-chip">Support Strategy</span>
+          <span class="skill-chip">Multi-Material FDM</span>
+          <span class="skill-chip">Part Drawing</span>
+          <span class="skill-chip">Caliper Measurement</span>
+          <span class="skill-chip">Rapid Iteration</span>
+          <span class="skill-chip">PLA / PETG / ABS</span>
+          <span class="skill-chip">G-code</span>
+          <span class="skill-chip">Firmware Config</span>
+        </div>
+        <div style="margin-top:var(--space-8);padding:var(--space-5);background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-lg);">
+          <p style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-faint);letter-spacing:0.06em;margin-bottom:var(--space-3);">// Hardware</p>
+          <p style="font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.7;">
+            Creality K2 Plus with CFS multi-filament module — 300×300×300mm build volume, high-temp capable, ±0.1mm dimensional accuracy on calibrated prints.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-layout">
+      <div>
+        <div class="section-label">Contact</div>
+        <h2 class="contact-tagline">
+          Let's build<br>something <span class="accent">precise.</span>
+        </h2>
+        <div class="available-badge">
+          <div class="available-dot"></div>
+          Available for freelance &amp; internship — 2026
+        </div>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:40ch;line-height:1.7;">
+          Open to freelance CAD projects, paid internship placements, and engineering collaborations across Europe. Fast turnaround, transparent communication, precise output.
+        </p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:hello@mabbenstudio.com" class="contact-link" target="_blank" rel="noopener noreferrer">
+          <svg class="contact-link-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <div>
+            <div class="contact-link-label">Email</div>
+            <div class="contact-link-value">hello@mabbenstudio.com</div>
+          </div>
+          <svg class="contact-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="https://linkedin.com/in/yourprofile" class="contact-link" target="_blank" rel="noopener noreferrer">
+          <svg class="contact-link-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          <div>
+            <div class="contact-link-label">LinkedIn</div>
+            <div class="contact-link-value">linkedin.com/in/yourprofile</div>
+          </div>
+          <svg class="contact-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="https://mabbenstudio.etsy.com" class="contact-link" target="_blank" rel="noopener noreferrer">
+          <svg class="contact-link-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          <div>
+            <div class="contact-link-label">Etsy Shop</div>
+            <div class="contact-link-value">Mabben Studio</div>
+          </div>
+          <svg class="contact-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">© 2026 Mabben Studio · Vilnius, Lithuania</span>
+    <span class="footer-tech">Built with precision · Fusion 360 + FDM</span>
+  </div>
+</footer>
+
+<script>
+  // Theme toggle
+  (function(){
+    const t = document.querySelector('[data-theme-toggle]');
+    const r = document.documentElement;
+    let d = r.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+    r.setAttribute('data-theme', d);
+    function updateIcon() {
+      if (!t) return;
+      t.setAttribute('aria-label', 'Switch to ' + (d === 'dark' ? 'light' : 'dark') + ' mode');
+      t.innerHTML = d === 'dark'
+        ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+        : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    }
+    updateIcon();
+    t && t.addEventListener('click', () => {
+      d = d === 'dark' ? 'light' : 'dark';
+      r.setAttribute('data-theme', d);
+      updateIcon();
+    });
+  })();
+
+  // Mobile hamburger
+  (function(){
+    const btn = document.getElementById('hamburger');
+    const links = document.getElementById('navLinks');
+    if (!btn || !links) return;
+    btn.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+      const spans = btn.querySelectorAll('span');
+      if (open) {
+        spans[0].style.transform = 'translateY(6.5px) rotate(45deg)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
+      } else {
+        spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+      }
+    });
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      links.classList.remove('open');
+      const spans = btn.querySelectorAll('span');
+      spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+    }));
+  })();
+
+  // Scroll fade-in
+  (function(){
+    const els = document.querySelectorAll('.fade-up');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(el => el.classList.add('in-view'));
+      return;
+    }
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(el => obs.observe(el));
+  })();
+</script>
+</body>
+</html>
